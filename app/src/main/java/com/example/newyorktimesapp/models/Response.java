@@ -2,7 +2,6 @@ package com.example.newyorktimesapp.api;
 
 import java.util.List;
 
-import com.example.Meta;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
