@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Small dimensions -->
+    <dimen name="small_50">4dp</dimen>
+    <dimen name="small_100">8dp</dimen>
+    <dimen name="regular">10dp</dimen>
+    <!-- Normal dimensions -->
+    <dimen name="normal_100">16dp</dimen>
+    <dimen name="normal_125">20dp</dimen>
+    <dimen name="normal_150">24dp</dimen>
+    <dimen name="normal_175">28dp</dimen>
+    <!-- Large dimensions -->
+    <dimen name="large_100">32dp</dimen>
+    <dimen name="large_125">40dp</dimen>
+    <dimen name="large_150">48dp</dimen>
+    <dimen name="large_175">56dp</dimen>
+    <dimen name="large_200">64dp</dimen>
+    <!-- Font sizes -->
+    <dimen name="fs_page_title">20sp</dimen>
+    <dimen name="fs_list_title">16sp</dimen>
+    <dimen name="fs_list_title_small">14sp</dimen>
+
+    <dimen name="fs_paragraph">14sp</dimen>
+
+    <dimen name="description_font_size">15sp</dimen>
+</resources>
