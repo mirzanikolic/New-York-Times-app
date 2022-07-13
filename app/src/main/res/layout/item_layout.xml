@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
     android:layout_margin="4dp"
     android:clickable="true"
     android:focusable="true"
@@ -20,16 +20,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <ImageView
                 android:id="@+id/item_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxHeight="@dimen/large_100"
-                android:maxWidth="@dimen/large_100"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
                 android:layout_gravity="center_vertical"
                 android:layout_margin="@dimen/regular"
                 android:src="@mipmap/ic_launcher_round"
@@ -48,18 +46,21 @@
                     android:layout_marginTop="@dimen/regular"
                     android:layout_marginStart="@dimen/regular"
                     android:layout_marginEnd="@dimen/regular"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:textStyle="bold"
                     android:textSize="@dimen/fs_list_title" />
 
                 <TextView
                     android:id="@+id/item_description"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     tools:text="This is a description"
-                    android:layout_marginTop="@dimen/regular"
+                    android:layout_marginTop="@dimen/small_50"
                     android:layout_marginStart="@dimen/regular"
                     android:layout_marginEnd="@dimen/regular"
                     android:textColor="@color/black"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
                     android:textSize="@dimen/fs_paragraph" />
 
                 <TextView
@@ -70,6 +71,7 @@
                     android:layout_marginTop="@dimen/regular"
                     android:layout_marginStart="@dimen/regular"
                     android:layout_marginEnd="@dimen/regular"
+                    android:layout_marginBottom="@dimen/regular"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="12sp" />
             </LinearLayout>
