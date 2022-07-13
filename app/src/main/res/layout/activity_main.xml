@@ -6,15 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_marginTop="0dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/toolbar_app_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="NYT app"
+                android:textStyle="bold"
+                android:textColor="@color/material_dynamic_tertiary40"
+                android:textSize="24sp">
+            </TextView>
+
+
+        </RelativeLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recicler_view"
+        android:id="@+id/recycler_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
         android:layout_marginStart="@dimen/small_50"
         android:layout_marginTop="@dimen/small_50"
         android:layout_marginEnd="@dimen/small_50"
         android:layout_marginBottom="@dimen/small_50"
         tools:itemCount="20"
-        tools:listitem="@layout/item_layout"/>
+        tools:listitem="@layout/item_layout">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package com.example.newyorktimesapp.api;
+package com.example.newyorktimesapp.models;
 
 import java.util.List;
 

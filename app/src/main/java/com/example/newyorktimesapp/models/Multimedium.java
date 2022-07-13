@@ -1,4 +1,4 @@
-package com.example.newyorktimesapp.api;
+package com.example.newyorktimesapp.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
