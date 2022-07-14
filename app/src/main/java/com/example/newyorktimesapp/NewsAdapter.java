@@ -1,7 +1,6 @@
 package com.example.newyorktimesapp;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Multimedium;
 import com.example.newyorktimesapp.remote.APIRequest;
@@ -56,8 +54,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                     .load(thumbUrl)
                     .placeholder(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
-        }
-        else {
+        } else {
             Glide.with(context)
                     .load(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
@@ -89,5 +86,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             newsThumbnail = itemView.findViewById(R.id.item_image);
             cardView = itemView.findViewById(R.id.cardView);
         }
+    }
+
+    public void clearNews() {
+        int size = news.size();
+        news.clear();
+        notifyItemRangeRemoved(0, size);
     }
 }

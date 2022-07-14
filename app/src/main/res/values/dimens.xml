@@ -15,6 +15,10 @@
     <dimen name="large_150">48dp</dimen>
     <dimen name="large_175">56dp</dimen>
     <dimen name="large_200">64dp</dimen>
+    <!-- Custom dimensions -->
+    <dimen name="large_100dp">100dp</dimen>
+    <dimen name="large_110dp">110dp</dimen>
+    <dimen name="large_150dp">150dp</dimen>
     <!-- Font sizes -->
     <dimen name="fs_page_title">20sp</dimen>
     <dimen name="fs_list_title">16sp</dimen>
