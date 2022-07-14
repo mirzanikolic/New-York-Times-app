@@ -9,8 +9,8 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    app:cardElevation="@dimen/normal_100"
-    app:cardCornerRadius="15dp">
+    app:cardCornerRadius="@dimen/small_50"
+    app:cardElevation="@dimen/small_100">
 
     <RelativeLayout
         android:id="@+id/rl_wrapper"
@@ -29,9 +29,9 @@
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center_vertical"
-                android:layout_margin="@dimen/regular"
-                android:src="@mipmap/ic_launcher_round"
-                android:contentDescription="@string/item_thumbnail" />
+                android:layout_marginStart="@dimen/small_100"
+                android:contentDescription="@string/item_thumbnail"
+                android:src="@mipmap/ic_launcher_round" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -42,38 +42,38 @@
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Title"
-                    android:layout_marginTop="@dimen/regular"
                     android:layout_marginStart="@dimen/regular"
+                    android:layout_marginTop="@dimen/small_50"
                     android:layout_marginEnd="@dimen/regular"
                     android:textColor="@android:color/holo_red_dark"
+                    android:textSize="@dimen/fs_list_title"
                     android:textStyle="bold"
-                    android:textSize="@dimen/fs_list_title" />
+                    tools:text="Title" />
 
                 <TextView
                     android:id="@+id/item_description"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
-                    tools:text="This is a description"
-                    android:layout_marginTop="@dimen/small_50"
                     android:layout_marginStart="@dimen/regular"
+                    android:layout_marginTop="@dimen/small_50"
                     android:layout_marginEnd="@dimen/regular"
-                    android:textColor="@color/black"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:textSize="@dimen/fs_paragraph" />
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/fs_paragraph"
+                    tools:text="This is a description" />
 
                 <TextView
                     android:id="@+id/item_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Author name"
-                    android:layout_marginTop="@dimen/regular"
                     android:layout_marginStart="@dimen/regular"
+                    android:layout_marginTop="@dimen/small_50"
                     android:layout_marginEnd="@dimen/regular"
-                    android:layout_marginBottom="@dimen/regular"
+                    android:layout_marginBottom="@dimen/small_50"
                     android:textColor="@android:color/darker_gray"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="Author name" />
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
