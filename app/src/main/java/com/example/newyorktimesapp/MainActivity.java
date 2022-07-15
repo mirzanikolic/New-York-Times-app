@@ -7,14 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.SearchView;
 
+import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Example;
 import com.example.newyorktimesapp.remote.ApiUtils;
@@ -27,6 +28,7 @@ import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity {
     public final String apiKey = "tZ9QFoQl6FCLFr6IgrIKX8aSI2IYxt1Y";
+    public static final String EXTRA_URL = "newsUrl";
     NewsAdapter adapter;
     ArrayList<Doc> news;
     String oldString = "";
@@ -46,22 +48,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         getNews();
-    }
 
-    public void getNews() {
-        ApiUtils.getApiRequest().getSearch(oldString, apiKey).enqueue(new Callback<Example>() {
-            @SuppressLint("NotifyDataSetChanged")
+        ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
-            public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    news.addAll(response.body().getResponse().getDocs());
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Example> call, Throwable t) {
+            public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra(EXTRA_URL, news.get(position).getWebUrl());
+                startActivity(intent);
             }
         });
     }
@@ -98,6 +91,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    public void getNews() {
+        ApiUtils.getApiRequest().getSearch(oldString, apiKey).enqueue(new Callback<Example>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    news.addAll(response.body().getResponse().getDocs());
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Example> call, Throwable t) {
+            }
+        });
     }
 
     public void reSearch() {

@@ -25,6 +25,7 @@
     <dimen name="fs_list_title_small">14sp</dimen>
 
     <dimen name="fs_paragraph">14sp</dimen>
+    <dimen name="fs_paragraph_small">12sp</dimen>
 
     <dimen name="description_font_size">15sp</dimen>
 </resources>
