@@ -28,4 +28,5 @@
     <dimen name="fs_paragraph_small">12sp</dimen>
 
     <dimen name="description_font_size">15sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
