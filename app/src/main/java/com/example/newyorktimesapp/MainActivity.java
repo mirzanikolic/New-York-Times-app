@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -13,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
@@ -31,16 +34,19 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_URL = "newsUrl";
     NewsAdapter adapter;
     ArrayList<Doc> news;
-    String oldString = "";
+    String oldString;
     RecyclerView recyclerView;
+    TextView showingResults;
+    ProgressBar progressBar;
 
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        progressBar = findViewById(R.id.loading_bar);
         recyclerView = findViewById(R.id.recycler_view);
         news = new ArrayList<>();
 
@@ -58,10 +64,18 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final SwipeRefreshLayout pullToRefresh = findViewById(R.id.swipe_refresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reSearch();
+                pullToRefresh.setRefreshing(false);
+            }
+        });
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
@@ -102,10 +116,11 @@ public class MainActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     news.addAll(response.body().getResponse().getDocs());
+                    progressBar.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
+                    progressBar.setVisibility(View.GONE);
                 }
             }
-
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
             }
@@ -115,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
     public void reSearch() {
         adapter.clearNews();
         getNews();
+    }
+
+    public void changeText(){
+
     }
 
     public void hideKeyboard() {
