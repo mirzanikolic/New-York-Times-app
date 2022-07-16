@@ -1,7 +1,7 @@
 package com.example.newyorktimesapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -11,17 +11,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.SearchView;
 
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Example;
-import com.example.newyorktimesapp.remote.ApiUtils;
+import com.example.newyorktimesapp.data.remote.ApiUtils;
+import com.example.newyorktimesapp.utility.Util;
 
 
 import java.io.IOException;
@@ -54,7 +56,14 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NewsAdapter(news, this);
         recyclerView.setAdapter(adapter);
 
-        getNews();
+        if(Util.isOnline(this)){
+            getNews();
+        }
+        else{
+            Toast.makeText(this, "There is no internet connection!", Toast.LENGTH_LONG).show();
+        }
+
+
 
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -104,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 searchView.clearFocus();
-                hideKeyboard();
+                Util.hideKeyboard(MainActivity.this);
                 return true;
             }
         });
@@ -124,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         ApiUtils.getApiRequest().getSearch(oldString, apiKey).enqueue(new Callback<Example>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
-            public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
+            public void onResponse(@NonNull Call<Example> call, retrofit2.Response<Example> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     progressBar.setVisibility(View.INVISIBLE);
@@ -134,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Example> call, Throwable t) {
+            public void onFailure(@NonNull Call<Example> call, @NonNull Throwable t) {
             }
         });
     }
@@ -144,30 +153,4 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         getNews();
     }
-
-    public void changeText() {
-
-    }
-
-    public void hideKeyboard() {
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
-    //Check if there is internet connection
-    public boolean isOnline() {
-        Runtime runtime = Runtime.getRuntime();
-        try {
-            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int exitValue = ipProcess.waitFor();
-            return (exitValue == 0);
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
 }

@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Multimedium;
-import com.example.newyorktimesapp.remote.APIRequest;
+import com.example.newyorktimesapp.data.remote.APIRequest;
 
 import java.util.ArrayList;
 

@@ -1,8 +1,6 @@
-package com.example.newyorktimesapp.remote;
+package com.example.newyorktimesapp.data.remote;
 
-import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Example;
-import com.example.newyorktimesapp.models.Response;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
