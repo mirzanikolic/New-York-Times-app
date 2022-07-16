@@ -2,7 +2,6 @@
     <string name="app_name">New York Times app</string>
     <string name="item_thumbnail">Item thumbnail of the news.</string>
     <string name="search">Search</string>
-    <string name="search_hint">Type here to search</string>
     <string name="title_activity_splash">SplashActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -14,4 +13,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="showing_results">Showing results for:</string>
     <string name="show_results">\"Showing results for: \"</string>
+    <string name="search_hint">Enter your search</string>
 </resources>

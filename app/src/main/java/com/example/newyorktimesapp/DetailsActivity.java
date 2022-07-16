@@ -39,28 +39,20 @@ public class DetailsActivity extends AppCompatActivity {
         webView = findViewById(R.id.news_web_view);
 
         Bundle extras = getIntent().getExtras();
-        if(extras!=null) {
+        if (extras != null) {
             webUrl = extras.getString("newsUrl");
             webView.setWebViewClient(new WebViewClient());
             webView.loadUrl(webUrl);
-        }
-        else{
-            Toast.makeText(this, "Error", Toast.LENGTH_LONG);
+        } else {
+            Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
         }
 
     }
 
-    /*
-    private static class CallBack extends WebViewClient {
-        @Override
-        public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-            return false;
-        }
-    }*/
-
     public class WebViewClient extends android.webkit.WebViewClient {
         boolean loadingFinished = true;
         boolean redirect = false;
+
         @Override
         public boolean shouldOverrideUrlLoading(
                 WebView view, WebResourceRequest request) {
@@ -92,17 +84,6 @@ public class DetailsActivity extends AppCompatActivity {
             }
         }
     }
-
-    /*
-    //Show the webView component filled with data.
-    @SuppressLint("SetJavaScriptEnabled")
-    public void showDetails(){
-        progressBar.setVisibility(View.INVISIBLE);
-        WebSettings webSettings = webView.getSettings();
-        webSettings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new CallBack());
-        webView.loadUrl(webUrl);
-    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

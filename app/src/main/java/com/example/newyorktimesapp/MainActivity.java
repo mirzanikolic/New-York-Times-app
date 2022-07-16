@@ -11,12 +11,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
-import android.widget.SearchView;
-import android.widget.TextView;
+import androidx.appcompat.widget.SearchView;
 
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Doc> news;
     String oldString;
     RecyclerView recyclerView;
-    TextView showingResults;
     ProgressBar progressBar;
 
 
@@ -79,7 +78,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenuItem);
+        final SearchView searchView = (SearchView) searchMenuItem.getActionView();
+        searchView.setQueryHint(getString(R.string.search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+        searchMenuItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
+
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
                 return true;
@@ -102,8 +103,18 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
+                searchView.clearFocus();
                 hideKeyboard();
                 return true;
+            }
+        });
+        searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                }
             }
         });
         return super.onCreateOptionsMenu(menu);
@@ -121,6 +132,7 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
                 }
             }
+
             @Override
             public void onFailure(Call<Example> call, Throwable t) {
             }
@@ -133,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
         getNews();
     }
 
-    public void changeText(){
+    public void changeText() {
 
     }
 
@@ -150,9 +162,11 @@ public class MainActivity extends AppCompatActivity {
         Runtime runtime = Runtime.getRuntime();
         try {
             Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
-            int     exitValue = ipProcess.waitFor();
+            int exitValue = ipProcess.waitFor();
             return (exitValue == 0);
-        } catch (IOException | InterruptedException e)          { e.printStackTrace(); }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
         return false;
     }
 
