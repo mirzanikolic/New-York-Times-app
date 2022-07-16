@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Multimedium;
 import com.example.newyorktimesapp.remote.APIRequest;
@@ -52,6 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         if (!thumbUrl.isEmpty()) {
             Glide.with(context)
                     .load(thumbUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
         } else {

@@ -24,6 +24,7 @@ import com.example.newyorktimesapp.models.Example;
 import com.example.newyorktimesapp.remote.ApiUtils;
 
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -115,10 +116,9 @@ public class MainActivity extends AppCompatActivity {
             public void onResponse(Call<Example> call, retrofit2.Response<Example> response) {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
+                    progressBar.setVisibility(View.INVISIBLE);
                     news.addAll(response.body().getResponse().getDocs());
-                    progressBar.setVisibility(View.VISIBLE);
                     adapter.notifyDataSetChanged();
-                    progressBar.setVisibility(View.GONE);
                 }
             }
             @Override
@@ -129,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void reSearch() {
         adapter.clearNews();
+        progressBar.setVisibility(View.VISIBLE);
         getNews();
     }
 
@@ -142,6 +143,17 @@ public class MainActivity extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    //Check if there is internet connection
+    public boolean isOnline() {
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            Process ipProcess = runtime.exec("/system/bin/ping -c 1 8.8.8.8");
+            int     exitValue = ipProcess.waitFor();
+            return (exitValue == 0);
+        } catch (IOException | InterruptedException e)          { e.printStackTrace(); }
+        return false;
     }
 
 }

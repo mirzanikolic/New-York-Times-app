@@ -56,11 +56,10 @@ public class DetailsActivity extends AppCompatActivity {
     //Show the webView component filled with data.
     @SuppressLint("SetJavaScriptEnabled")
     public void showDetails(){
-        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new CallBack());
-        progressBar.setVisibility(View.INVISIBLE);
         webView.loadUrl(webUrl);
     }
 
