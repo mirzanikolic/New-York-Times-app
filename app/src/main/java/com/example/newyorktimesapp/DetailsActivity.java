@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -27,6 +29,7 @@ public class DetailsActivity extends AppCompatActivity {
     String webUrl;
     ProgressBar progressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,7 +41,8 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras!=null) {
             webUrl = extras.getString("newsUrl");
-            showDetails();
+            webView.setWebViewClient(new WebViewClient());
+            webView.loadUrl(webUrl);
         }
         else{
             Toast.makeText(this, "Error", Toast.LENGTH_LONG);
@@ -46,13 +50,50 @@ public class DetailsActivity extends AppCompatActivity {
 
     }
 
+    /*
     private static class CallBack extends WebViewClient {
         @Override
         public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
             return false;
         }
+    }*/
+
+    public class WebViewClient extends android.webkit.WebViewClient {
+        boolean loadingFinished = true;
+        boolean redirect = false;
+        @Override
+        public boolean shouldOverrideUrlLoading(
+                WebView view, WebResourceRequest request) {
+            if (!loadingFinished) {
+                redirect = true;
+            }
+
+            loadingFinished = false;
+            webView.loadUrl(request.getUrl().toString());
+            return true;
+        }
+
+        @Override
+        public void onPageStarted(
+                WebView view, String url, Bitmap favicon) {
+            progressBar.setVisibility(View.VISIBLE);
+            super.onPageStarted(view, url, favicon);
+            loadingFinished = false;
+
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            if (!redirect) {
+                progressBar.setVisibility(View.GONE);
+                loadingFinished = true;
+            } else {
+                redirect = false;
+            }
+        }
     }
 
+    /*
     //Show the webView component filled with data.
     @SuppressLint("SetJavaScriptEnabled")
     public void showDetails(){
@@ -61,7 +102,7 @@ public class DetailsActivity extends AppCompatActivity {
         webSettings.setJavaScriptEnabled(true);
         webView.setWebViewClient(new CallBack());
         webView.loadUrl(webUrl);
-    }
+    }*/
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -95,6 +136,4 @@ public class DetailsActivity extends AppCompatActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
-
-
 }
