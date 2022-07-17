@@ -1,5 +1,7 @@
 package com.example.newyorktimesapp.data.remote;
 
+import android.content.Intent;
+
 import com.example.newyorktimesapp.models.Example;
 
 import retrofit2.Call;
@@ -13,6 +15,7 @@ public interface APIRequest {
     @GET("search/v2/articlesearch.json")
     Call<Example> getSearch(
             @Query("q") String keyword,
-            @Query("api-key") String apiKey
-    );
+            @Query("api-key") String apiKey,
+            @Query("page") Integer page
+            );
 }

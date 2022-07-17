@@ -19,15 +19,18 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 
+import com.example.newyorktimesapp.listener.EndlessRecyclerViewScrollListener;
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Example;
 import com.example.newyorktimesapp.data.remote.ApiUtils;
 import com.example.newyorktimesapp.utility.Util;
+import com.google.gson.Gson;
 
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     String oldString;
     RecyclerView recyclerView;
     ProgressBar progressBar;
+    EndlessRecyclerViewScrollListener scrollListener;
+    private Gson gson;
 
 
     @SuppressLint("SetTextI18n")
@@ -57,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         if(Util.isOnline(this)){
-            getNews();
+            getNews(0);
+            getNews(1);
         }
         else{
             Toast.makeText(this, "There is no internet connection!", Toast.LENGTH_LONG).show();
@@ -82,6 +88,13 @@ public class MainActivity extends AppCompatActivity {
                 pullToRefresh.setRefreshing(false);
             }
         });
+
+        scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) recyclerView.getLayoutManager()) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                getNews(page);
+            }
+        };
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    public void getNews() {
-        ApiUtils.getApiRequest().getSearch(oldString, apiKey).enqueue(new Callback<Example>() {
+    public void getNews(int page) {
+        ApiUtils.getApiRequest().getSearch(oldString, apiKey, page).enqueue(new Callback<Example>() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(@NonNull Call<Example> call, retrofit2.Response<Example> response) {
@@ -151,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
     public void reSearch() {
         adapter.clearNews();
         progressBar.setVisibility(View.VISIBLE);
-        getNews();
+        getNews(0);
+        getNews(1);
     }
 }

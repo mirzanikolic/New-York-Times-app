@@ -23,12 +23,4 @@ public class Util {
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-    /*
-    public void hideKeyboard(View view) {
-        view = this.getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }*/
 }
