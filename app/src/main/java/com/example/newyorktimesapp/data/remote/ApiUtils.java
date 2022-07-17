@@ -6,13 +6,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiUtils {
     private static Retrofit retrofit = null;
 
-    public static APIRequest getApiRequest() {
+    public static APIService getApiRequest() {
         if (retrofit==null) {
             retrofit = new Retrofit.Builder()
-                    .baseUrl(APIRequest.BASE_URL)
+                    .baseUrl(APIService.BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }
-        return retrofit.create(APIRequest.class);
+        return retrofit.create(APIService.class);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.newyorktimesapp;
+package com.example.newyorktimesapp.view.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,35 +19,32 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 
-import com.example.newyorktimesapp.data.local.NewsDatabase;
-import com.example.newyorktimesapp.data.local.NewsEntity;
+import com.example.newyorktimesapp.contracts.NewsContract;
+import com.example.newyorktimesapp.view.adapter.NewsAdapter;
+import com.example.newyorktimesapp.R;
+
 import com.example.newyorktimesapp.listener.EndlessRecyclerViewScrollListener;
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
-import com.example.newyorktimesapp.models.Example;
-import com.example.newyorktimesapp.data.remote.ApiUtils;
+
 import com.example.newyorktimesapp.utility.Util;
 import com.google.gson.Gson;
 
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NewsContract.NewsView {
     public final String apiKey = "tZ9QFoQl6FCLFr6IgrIKX8aSI2IYxt1Y";
     public static final String EXTRA_URL = "newsUrl";
     NewsAdapter adapter;
-    ArrayList<Doc> news;
-    ArrayList<NewsEntity> oldNews;
-    String oldString;
     RecyclerView recyclerView;
     ProgressBar progressBar;
     EndlessRecyclerViewScrollListener scrollListener;
     private Gson gson;
+    NewsContract.NewsPresenter presenter;
+    RecyclerView.LayoutManager layoutManager;
+    String oldString;
 
 
     @SuppressLint("SetTextI18n")
@@ -55,18 +52,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         progressBar = findViewById(R.id.loading_bar);
+        presenter = new NewsPresenter(this);
+        presenter.getNews(oldString, 0);
         recyclerView = findViewById(R.id.recycler_view);
-        news = new ArrayList<>();
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NewsAdapter(news, this);
+        adapter = new NewsAdapter(null);
+        layoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(layoutManager);
+
 
         if (Util.isOnline(this)) {
-            getNews(0);
-            getNews(1);
+            presenter.getNews(oldString, 0);
         } else {
             progressBar.setVisibility(View.VISIBLE);
             Toast.makeText(this, "There is no internet connection!", Toast.LENGTH_LONG).show();
@@ -76,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                Intent intent = new Intent(v.getContext(), DetailsActivity.class);
-                intent.putExtra(EXTRA_URL, news.get(position).getWebUrl());
-                startActivity(intent);
+                /*Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                intent.putExtra(EXTRA_URL)
+                startActivity(intent);*/
             }
         });
 
@@ -86,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                reSearch();
+                presenter.getNews(oldString, 0);
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -94,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) recyclerView.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-
+                presenter.getNews(oldString, page);
             }
         };
     }
@@ -108,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 oldString = query;
-                reSearch();
+                clearData();
+                presenter.getNews(oldString, 0);
                 searchView.clearFocus();
                 return true;
             }
@@ -144,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    /*
     public void getNews(int page) {
         ApiUtils.getApiRequest().getSearch(oldString, apiKey, page).enqueue(new Callback<Example>() {
             @SuppressLint("NotifyDataSetChanged")
@@ -153,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     progressBar.setVisibility(View.INVISIBLE);
                     news.addAll(response.body().getResponse().getDocs());
-                    NewsDatabase.getInstance(getApplicationContext()).newsDao().saveLocalNews(response.body().getResponse().getDocs());
+                    //NewsDatabase.getInstance(getApplicationContext()).newsDao().saveLocalNews(response.body().getResponse().getDocs());
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -170,5 +169,25 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         getNews(0);
         getNews(1);
+    }*/
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showData(ArrayList<Doc> news) {
+        adapter.changeData(news);
+    }
+
+    public void clearData() {
+        adapter.clearNews();
     }
 }
