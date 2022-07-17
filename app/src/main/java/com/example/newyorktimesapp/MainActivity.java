@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SearchView;
 
+import com.example.newyorktimesapp.data.local.NewsDatabase;
+import com.example.newyorktimesapp.data.local.NewsEntity;
 import com.example.newyorktimesapp.listener.EndlessRecyclerViewScrollListener;
 import com.example.newyorktimesapp.listener.ItemClickSupport;
 import com.example.newyorktimesapp.models.Doc;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_URL = "newsUrl";
     NewsAdapter adapter;
     ArrayList<Doc> news;
+    ArrayList<NewsEntity> oldNews;
     String oldString;
     RecyclerView recyclerView;
     ProgressBar progressBar;
@@ -61,14 +64,13 @@ public class MainActivity extends AppCompatActivity {
         adapter = new NewsAdapter(news, this);
         recyclerView.setAdapter(adapter);
 
-        if(Util.isOnline(this)){
+        if (Util.isOnline(this)) {
             getNews(0);
             getNews(1);
-        }
-        else{
+        } else {
+            progressBar.setVisibility(View.VISIBLE);
             Toast.makeText(this, "There is no internet connection!", Toast.LENGTH_LONG).show();
         }
-
 
 
         ItemClickSupport.addTo(recyclerView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -92,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         scrollListener = new EndlessRecyclerViewScrollListener((LinearLayoutManager) recyclerView.getLayoutManager()) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                getNews(page);
+
             }
         };
     }
@@ -151,6 +153,7 @@ public class MainActivity extends AppCompatActivity {
                     assert response.body() != null;
                     progressBar.setVisibility(View.INVISIBLE);
                     news.addAll(response.body().getResponse().getDocs());
+                    NewsDatabase.getInstance(getApplicationContext()).newsDao().saveLocalNews(response.body().getResponse().getDocs());
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -163,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void reSearch() {
         adapter.clearNews();
+        scrollListener.resetState();
         progressBar.setVisibility(View.VISIBLE);
         getNews(0);
         getNews(1);

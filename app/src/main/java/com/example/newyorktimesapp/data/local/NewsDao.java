@@ -13,5 +13,8 @@ public interface NewsDao {
     List<NewsEntity> getLocalNews();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void saveLocalNews(List<NewsEntity> articleEntities);
+    void saveLocalNews(List<NewsEntity> newsEntities);
+
+    @Query("DELETE FROM news")
+    void deleteAll();
 }
