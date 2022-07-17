@@ -1,4 +1,4 @@
-package com.example.newyorktimesapp;
+package com.example.newyorktimesapp.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.newyorktimesapp.R;
 import com.example.newyorktimesapp.databinding.ActivityDetailsBinding;
 
 import java.time.Duration;

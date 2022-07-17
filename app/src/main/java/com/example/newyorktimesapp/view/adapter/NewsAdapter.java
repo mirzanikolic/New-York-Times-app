@@ -1,5 +1,6 @@
-package com.example.newyorktimesapp;
+package com.example.newyorktimesapp.view.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,21 +14,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.newyorktimesapp.R;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Multimedium;
-import com.example.newyorktimesapp.data.remote.APIRequest;
+import com.example.newyorktimesapp.data.remote.APIService;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+    List<Doc> news;
 
-    private final ArrayList<Doc> news;
-    private final Context context;
-
-    public NewsAdapter(ArrayList<Doc> data, Context context) {
-        this.news = data;
-        this.context = context;
+    public NewsAdapter(List<Doc> newsList) {
+        this.news = newsList;
     }
+
 
     @NonNull
     @Override
@@ -46,25 +47,33 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         String thumbUrl = "";
         for (Multimedium m : multimedia) {
             if (m.getType().equals("image") && m.getSubtype().equals("thumbLarge")) {
-                thumbUrl = APIRequest.API_IMAGE_BASE_URL + m.getUrl();
+                thumbUrl = APIService.API_IMAGE_BASE_URL + m.getUrl();
                 break;
             }
         }
         if (!thumbUrl.isEmpty()) {
-            Glide.with(context)
+            Glide.with(holder.itemView)
                     .load(thumbUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
         } else {
-            Glide.with(context)
+            Glide.with(holder.itemView)
                     .load(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    public void changeData(ArrayList<Doc> news) {
+        this.news = news;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
+        if (news==null)
+            return 0;
         return news.size();
     }
 
@@ -90,9 +99,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public void clearNews() {
         int size = news.size();
         news.clear();
-        notifyItemRangeRemoved(0, size);
+        notifyDataSetChanged();
     }
 }

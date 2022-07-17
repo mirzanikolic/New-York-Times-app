@@ -7,8 +7,8 @@ import androidx.room.Query;
 
 import java.util.List;
 
-@Dao
 public interface NewsDao {
+    /*
     @Query("SELECT * FROM news")
     List<NewsEntity> getLocalNews();
 
@@ -16,5 +16,5 @@ public interface NewsDao {
     void saveLocalNews(List<NewsEntity> newsEntities);
 
     @Query("DELETE FROM news")
-    void deleteAll();
+    void deleteAll();*/
 }
