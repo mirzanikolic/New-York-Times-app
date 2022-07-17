@@ -1,75 +1,43 @@
 package com.example.newyorktimesapp.data.local;
 
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
+import com.example.newyorktimesapp.models.Response;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "news")
 public class NewsEntity {
-    @PrimaryKey
-    @SerializedName("id")
-    private long id;
+    @SerializedName("status")
+    @Expose
+    private String status;
+    @SerializedName("copyright")
+    @Expose
+    private String copyright;
+    @SerializedName("response")
+    @Expose
+    private Response response;
 
-    @SerializedName("byline")
-    private String byline;
-
-    @SerializedName("headline")
-    private String headline;
-
-    @SerializedName("abstract")
-    private String _abstract;
-
-    @SerializedName("url")
-    private String url;
-
-    private String content;
-
-    public long getId() {
-        return id;
+    public String getStatus() {
+        return status;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getByline() {
-        return byline;
+    public String getCopyright() {
+        return copyright;
     }
 
-    public void setByline(String byline) {
-        this.byline = byline;
+    public void setCopyright(String copyright) {
+        this.copyright = copyright;
     }
 
-    public String getHeadline() {
-        return headline;
+    public Response getResponse() {
+        return response;
     }
 
-    public void setHeadline(String headline) {
-        this.headline = headline;
-    }
-
-    public String get_abstract() {
-        return _abstract;
-    }
-
-    public void set_abstract(String _abstract) {
-        this._abstract = _abstract;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public void setResponse(Response response) {
+        this.response = response;
     }
 }
