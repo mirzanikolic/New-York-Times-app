@@ -1,4 +1,4 @@
-package com.example.newyorktimesapp;
+package com.example.newyorktimesapp.view.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +18,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.newyorktimesapp.R;
 import com.example.newyorktimesapp.databinding.ActivityDetailsBinding;
 
 import java.time.Duration;
@@ -35,8 +36,9 @@ public class DetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        progressBar = findViewById(R.id.loading_bar2);
-        webView = findViewById(R.id.news_web_view);
+
+        InitUI();
+
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -47,6 +49,11 @@ public class DetailsActivity extends AppCompatActivity {
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void InitUI(){
+        progressBar = findViewById(R.id.loading_bar2);
+        webView = findViewById(R.id.news_web_view);
     }
 
     public class WebViewClient extends android.webkit.WebViewClient {

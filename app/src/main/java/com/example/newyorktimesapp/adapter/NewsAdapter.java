@@ -1,6 +1,5 @@
-package com.example.newyorktimesapp;
+package com.example.newyorktimesapp.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,20 +12,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.newyorktimesapp.R;
+import com.example.newyorktimesapp.data.remote.ApiUtils;
 import com.example.newyorktimesapp.models.Doc;
 import com.example.newyorktimesapp.models.Multimedium;
-import com.example.newyorktimesapp.data.remote.APIRequest;
+import com.example.newyorktimesapp.view.activities.NewsListActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
+    private List<Doc> newsList;
+    private NewsListActivity newsListActivity;
+    private List<Doc> originalNewsList;
 
-    private final ArrayList<Doc> news;
-    private final Context context;
-
-    public NewsAdapter(ArrayList<Doc> data, Context context) {
-        this.news = data;
-        this.context = context;
+    public NewsAdapter(NewsListActivity newsListActivity, List<Doc> newsList) {
+        this.newsListActivity = newsListActivity;
+        this.newsList = newsList;
+        this.originalNewsList = newsList;
     }
 
     @NonNull
@@ -38,7 +41,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Doc article = news.get(position);
+        Doc article = newsList.get(position);
         holder.newsTitle.setText(getSafeString(article.getHeadline().getMain()));
         holder.newsAuthor.setText(getSafeString(article.getByline().getOriginal()));
         holder.newsDescription.setText(getSafeString(article.getAbstract()));
@@ -46,18 +49,18 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         String thumbUrl = "";
         for (Multimedium m : multimedia) {
             if (m.getType().equals("image") && m.getSubtype().equals("thumbLarge")) {
-                thumbUrl = APIRequest.API_IMAGE_BASE_URL + m.getUrl();
+                thumbUrl = ApiUtils.API_IMAGE_BASE_URL + m.getUrl();
                 break;
             }
         }
         if (!thumbUrl.isEmpty()) {
-            Glide.with(context)
+            Glide.with(newsListActivity)
                     .load(thumbUrl)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .placeholder(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
         } else {
-            Glide.with(context)
+            Glide.with(newsListActivity)
                     .load(R.drawable.placeholder_thumbnail)
                     .into(holder.newsThumbnail);
         }
@@ -65,7 +68,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return news.size();
+        return newsList.size();
     }
 
     private String getSafeString(String string) {
@@ -90,9 +93,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
     }
 
-    public void clearNews() {
-        int size = news.size();
-        news.clear();
-        notifyItemRangeRemoved(0, size);
+    public void clear() {
+        newsList.clear();
     }
 }

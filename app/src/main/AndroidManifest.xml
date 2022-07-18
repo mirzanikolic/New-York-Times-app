@@ -14,10 +14,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.NewYorkTimesApp">
         <activity
-            android:name=".DetailsActivity"
+            android:name=".view.activities.DetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.activities.NewsListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
