@@ -1,4 +1,4 @@
-#Challenge - NYT Search App
+# Challenge - NYT Search App
 Android Java application made using the [New York Times Search API](https://developer.nytimes.com/docs/articlesearch-product/1/overview "New York Times Api."), created with the intention of giving the user the ability to search for news related to the above mentioned API.
 ## Architecture
 This application was created using the **MVP** architecture.
