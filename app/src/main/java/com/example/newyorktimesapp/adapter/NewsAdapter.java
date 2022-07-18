@@ -92,4 +92,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
             cardView = itemView.findViewById(R.id.cardView);
         }
     }
+
+    public void clear() {
+        newsList.clear();
+    }
 }
