@@ -41,8 +41,4 @@ public class NewsListModel implements NewsListContract.Model {
             }
         });
     }
-
-    public String getQuery(){
-        return query;
-    }
 }

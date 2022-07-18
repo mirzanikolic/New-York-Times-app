@@ -49,7 +49,7 @@ public class NewsListPresenter implements NewsListContract.Presenter, NewsListCo
         if (newsListView != null) {
             newsListView.showProgress();
         }
-        newsListModel.getNewsList(this, "balkan", 1);
+        newsListModel.getNewsList(this, "", 0);
     }
 }
 
