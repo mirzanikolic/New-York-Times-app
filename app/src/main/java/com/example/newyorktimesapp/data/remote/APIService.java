@@ -7,11 +7,9 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface APIService {
-    String BASE_URL = "https://api.nytimes.com/svc/";
-    String API_IMAGE_BASE_URL = "https://www.nytimes.com/";
 
     @GET("search/v2/articlesearch.json")
-    Call<Example> getSearch(
+    Call<Example> getNews(
             @Query("q") String keyword,
             @Query("api-key") String apiKey,
             @Query("page") Integer page
