@@ -2,10 +2,8 @@ package com.example.newyorktimesapp.view.activities;
 
 import static android.view.View.VISIBLE;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -45,11 +43,6 @@ public class NewsListActivity extends AppCompatActivity implements NewsListContr
     private int pageNo = 0;
     String query = "";
 
-    //Constants for load more
-    private int previousTotal = 0;
-    private boolean loading = true;
-    private int visibleThreshold = 5;
-    int firstVisibleItem, visibleItemCount, totalItemCount;
     private LinearLayoutManager layoutManager;
 
     @Override
@@ -81,7 +74,7 @@ public class NewsListActivity extends AppCompatActivity implements NewsListContr
         recyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                newsListPresenter.getMoreData(query, page);
+                newsListPresenter.getMoreData(query, pageNo);
             }
         });
         /*
