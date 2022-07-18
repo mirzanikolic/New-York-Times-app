@@ -30,15 +30,12 @@ public class DetailsActivity extends AppCompatActivity {
     String webUrl;
     ProgressBar progressBar;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-
         InitUI();
-
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -48,10 +45,9 @@ public class DetailsActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Error", Toast.LENGTH_LONG).show();
         }
-
     }
 
-    private void InitUI(){
+    private void InitUI() {
         progressBar = findViewById(R.id.loading_bar2);
         webView = findViewById(R.id.news_web_view);
     }
@@ -120,7 +116,6 @@ public class DetailsActivity extends AppCompatActivity {
                     }
                     return true;
             }
-
         }
         return super.onKeyDown(keyCode, event);
     }

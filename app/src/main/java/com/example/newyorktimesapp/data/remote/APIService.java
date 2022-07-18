@@ -13,5 +13,5 @@ public interface APIService {
             @Query("q") String keyword,
             @Query("api-key") String apiKey,
             @Query("page") Integer page
-            );
+    );
 }

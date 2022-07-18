@@ -10,11 +10,11 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
     // before loading more.
     private int visibleThreshold = 2;
     // Page which is already loaded before any scrolling (we fetch page 0 and 1 on query submit)
-    private int startingPage = 1;
+    private int startingPage = 0;
     // The current offset index of data you have loaded
     private int currentPage = 0;
     // The highest page number we can fetch (defined by the API)
-    private int maxPage = 100;
+    private final int maxPage = 100;
     // The total number of items in the dataset after the last load
     private int previousTotalItemCount = 0;
     // True if we are still waiting for the last set of data to load.

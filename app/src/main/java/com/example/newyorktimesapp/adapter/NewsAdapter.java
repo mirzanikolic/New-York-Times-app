@@ -21,15 +21,13 @@ import com.example.newyorktimesapp.view.activities.NewsListActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>{
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private List<Doc> newsList;
     private NewsListActivity newsListActivity;
-    private List<Doc> originalNewsList;
 
     public NewsAdapter(NewsListActivity newsListActivity, List<Doc> newsList) {
         this.newsListActivity = newsListActivity;
         this.newsList = newsList;
-        this.originalNewsList = newsList;
     }
 
     @NonNull

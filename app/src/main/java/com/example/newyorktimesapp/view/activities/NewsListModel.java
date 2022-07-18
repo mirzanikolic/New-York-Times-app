@@ -19,6 +19,7 @@ import retrofit2.Response;
 public class NewsListModel implements NewsListContract.Model {
     String query;
     private final String TAG = "NewsListModel";
+
     @Override
     public void getNewsList(OnFinishedListener onFinishedListener, String query, int page) {
         APIService apiService =
