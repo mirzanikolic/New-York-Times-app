@@ -17,7 +17,7 @@
             android:name=".view.activities.DetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".view.activities.MainActivity"
+            android:name=".view.activities.NewsListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
